@@ -1,0 +1,36 @@
+ia-agents-code/
+├── .venv/                 # Dossier de l'environnement virtuel Python (déjà créé et ignoré par Git)
+├── agents/                # Code source de chaque agent
+│   ├── __init__.py        # Rend le dossier 'agents' importable comme un package Python
+│   ├── pipeline_monitor/  # Code spécifique à un agent qui surveille les pipelines Fabric
+│   │   ├── __init__.py    # Rend 'pipeline_monitor' importable
+│   │   ├── main.py        # Point d'entrée principal de l'agent de surveillance
+│   │   ├── config.py      # Configuration spécifique à cet agent (ex: listes de pipelines à surveiller)
+│   │   └── utils.py       # Fonctions utilitaires pour cet agent
+│   ├── data_quality/      # Code pour un autre agent (ex: vérification de la qualité des données)
+│   │   ├── __init__.py
+│   │   ├── main.py
+│   │   └── ...
+│   └── common/            # Code commun partagé entre plusieurs agents
+│       ├── __init__.py
+│       └── fabric_utils.py # Fonctions utilitaires pour interagir avec Fabric (ex: se connecter, lire des données)
+├── notebooks/             # Notebooks Jupyter/Fabric (pour des tests, analyses exploratoires, prototypage)
+│   ├── exploratory/       # Analyses exploratoires
+│   │   └── test_fabric_connection.ipynb
+│   └── agent_prototypes/  # Prototypage d'agents
+│       └── prototype_pipeline_monitor.ipynb
+├── scripts/               # Petits scripts utiles (ex: pour déployer, configurer)
+│   └── setup_dev_env.sh   # (Optionnel) Script pour aider à configurer l'environnement de dev
+├── docs/                  # Documentation du projet
+│   ├── architecture.md    # Description de l'architecture des agents
+│   └── agent_X_readme.md  # Documentation spécifique pour un agent X
+├── tests/                 # Tests pour tes agents
+│   ├── __init__.py
+│   ├── test_pipeline_monitor.py
+│   └── common/
+│       ├── __init__.py
+│       └── test_fabric_utils.py
+├── .gitattributes         # Fichier Git (déjà créé)
+├── .gitignore             # Fichier Git (déjà créé, configuré pour Python)
+├── README.md              # Description générale du projet (déjà créé, à compléter)
+└── requirements.txt       # Dépendances Python du projet (déjà créé, à remplir)

@@ -1,0 +1,39 @@
+# Common
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+.vscode/
+
+# Gateway (Azure Functions)
+gateway/bin
+gateway/obj
+gateway/csx
+gateway/.vs
+gateway/edge
+gateway/Publish
+gateway/*.user
+gateway/*.suo
+gateway/*.cscfg
+gateway/*.Cache
+gateway/project.lock.json
+gateway/local.settings.json
+gateway/.python_packages/
+
+# Orchestrator
+orchestrator/*.so
+orchestrator/build/
+orchestrator/dist/
+orchestrator/.eggs/
+orchestrator/*.egg-info/
+orchestrator/.pytest_cache/
+orchestrator/*.log
+orchestrator/instance/
+orchestrator/.ipynb_checkpoints
+
+# OS Files
+.DS_Store
+Thumbs.db

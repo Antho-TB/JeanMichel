@@ -1,0 +1,30 @@
+{
+  "llm_model_name": "models/gemini-1.5-flash-latest",
+  "servers": [
+    {
+      "name": "Outils_TB_Groupe_n8n",
+      "type": "http",
+      "url": "http://localhost:5678",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "tools": [
+        {
+          "name": "chercher_resume_client",
+          "path": "webhook/3abdb0d7-2989-4a6c-951d-af6d2f2ee2bd",
+          "description": "Indispensable pour obtenir le résumé d'un client de TB Groupe à partir de son code. L'entrée doit être le code client.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "clientCode": {
+                "type": "string",
+                "description": "Le code du client à rechercher (ex: 00001228)."
+              }
+            },
+            "required": ["clientCode"]
+          }
+        }
+      ]
+    }
+  ]
+}

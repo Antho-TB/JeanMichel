@@ -1,0 +1,12 @@
+azure-identity
+azure-keyvault-secrets
+azure-monitor-opentelemetry # Pour envoyer les logs à Application Insights
+google-generativeai
+requests
+langchain
+langchain-google-genai
+flask
+gunicorn
+python-dotenv
+# Ajoutez d'autres dépendances nécessaires à votre projet au fur et à mesure
+pytest

@@ -1,0 +1,4 @@
+cryptography==43.0.3
+azure-functions
+requests
+azure-monitor-opentelemetry
