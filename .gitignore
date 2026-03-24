@@ -1,39 +1,28 @@
-# Common
-__pycache__/
-*.py[cod]
-*$py.class
+# Environments
 .env
 .venv
 env/
 venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# MLFlow
+mlruns/
+*.db
+mlflow.db
+mlflow.db.bak
+
+# Secrets
+local.settings.json
+secrets/
+settings_backup.json
+
+# IDE
 .vscode/
-
-# Gateway (Azure Functions)
-gateway/bin
-gateway/obj
-gateway/csx
-gateway/.vs
-gateway/edge
-gateway/Publish
-gateway/*.user
-gateway/*.suo
-gateway/*.cscfg
-gateway/*.Cache
-gateway/project.lock.json
-gateway/local.settings.json
-gateway/.python_packages/
-
-# Orchestrator
-orchestrator/*.so
-orchestrator/build/
-orchestrator/dist/
-orchestrator/.eggs/
-orchestrator/*.egg-info/
-orchestrator/.pytest_cache/
-orchestrator/*.log
-orchestrator/instance/
-orchestrator/.ipynb_checkpoints
-
-# OS Files
-.DS_Store
-Thumbs.db
+.idea/
