@@ -92,6 +92,18 @@
 ## 14. Sources de Données Officielles (MCP)
 - **Privilège Data.gouv** : Pour tout enrichissement de données externes, juridiques ou administratives (ex: Legifrance, Sirene), l'agent DOIT privilégier en priorité absolue l'utilisation des serveurs **MCP (Model Context Protocol) connectés à data.gouv.fr** ou Piste avant d'utiliser une recherche web classique (Tavily/Google).
 
+## 15. Intégration API Kelio (RH / Temps)
+- **Protocole** : Actuellement SOAP (XML). Accès REST/JSON demandé par Stéphane Guillaumont mais non confirmé (API actuelle pour extraction données employées, absences et compteurs). Inclus dans le contrat.
+- **Connecteurs Tiers** : 
+  - **MyReport (BI)** : Licence "Server" requise pour croiser avec Sylob.
+  - **MES Aquiweb** : Interfaçage en cours
+- **Contraintes & Points de vigilance** : 
+  - Timeouts imposés de 5 minutes.
+  - Plages horaires d'interdiction d'appels.
+  - Coupures possibles en cas de volume "abusif".
+  - Filtrage fin par population impossible actuellement.
+- **Documentation** : [Web Services Kelio](https://kelio.help.kelio.io/V5.1P5/fr-FR/webservices/index.html).
+
 ## Gestion des Tâches
 - **Planifier d'abord** : Écrire le plan dans `tasks/todo.md`.
 - **Vérifier le Plan** : Valider avec l'utilisateur avant action.
@@ -101,3 +113,10 @@
 
 > [!IMPORTANT]
 > **Interdiction de Modification** : Ce fichier reste la source de vérité pour le mode opératoire et la structure technique. Toute modification doit être justifiée.
+
+---
+> [!IMPORTANT]
+> **Sécurité & Standards (NUBO / MLOps)** : 
+> L'utilisation de fichiers `.env` en production est strictement proscrite. 
+> La gestion des secrets (API, Base de données) doit obligatoirement passer par **Azure Key Vault**.
+> L'authentification des ressources s'effectue via **Entra ID (Managed Identity)** géré exclusivement par Terraform.

@@ -4,12 +4,9 @@ from langchain.agents import AgentExecutor, create_react_agent
 from langchain.prompts import PromptTemplate
 from agents.common.azure_utils import get_secret
 from agents.commerce_agent.tools import get_client_summary_tool
-from dotenv import load_dotenv
 import logging
 import json
 import os
-
-load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 app = Flask(__name__)

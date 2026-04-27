@@ -9,9 +9,7 @@ class _SecretClientSingleton:
 
     def __new__(cls):
         if cls._instance is None:
-            key_vault_name = os.environ.get("KEY_VAULT_NAME")
-            if not key_vault_name:
-                raise ValueError("Environment variable KEY_VAULT_NAME is not set.")
+            key_vault_name = os.environ.get("KEY_VAULT_NAME", "kv-tb-ia-agents-secrets")
             
             kv_uri = f"https://{key_vault_name}.vault.azure.net"
             credential = DefaultAzureCredential()

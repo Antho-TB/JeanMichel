@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify
-from dotenv import load_dotenv
+from agents.common.azure_utils import get_secret
+import requests
 import os
 # On importe notre fonction depuis le fichier main.py
 from main import get_agent_response
 
 # --- Initialisation de l'application ---
-load_dotenv()
 app = Flask(__name__)
-API_KEY = os.environ.get("AGENT_API_KEY")
+API_KEY = get_secret("AGENT-API-KEY")
 
 # --- Point d'entrée de l'API (/ask) ---
 @app.route('/ask', methods=['POST'])

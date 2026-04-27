@@ -1,0 +1,67 @@
+# Note de Synthèse : Écosystème Data et Interfaçages (Avril 2026)
+
+*Date : 20 Avril 2026*
+
+Ce document dresse un état des lieux de la cartographie des données métiers, de la capacité d'intégration des différentes solutions, et cible les blocages techniques ou contractuels actuels.
+
+---
+
+## 1. Statut du Dossier MyReport & Déversement Azure (DWH)
+
+L'objectif initial était d'utiliser MyReport comme moteur ETL (Extraction, Transformation, Chargement) pour traiter les données métier et les déverser de façon fiabilisée vers l'entrepôt Azure (`dtpf_sylob_prod`).
+
+**✅ Feu Vert Technique :**
+*   **Architecture valide :** Le schéma de transfert (MyReport <=> Azure Postgres) validé par le partenaire Nubo est fonctionnel.
+*   **Infrastructure prête :** Le nouveau serveur provisionné par Samuel Sellier le 14 avril 2026 (8 Cœurs, 16 Go de RAM) délivre d'excellentes performances qui lèvent l'ancien goulot d'étranglement ETL.
+
+**⛔ Point de Blocage Contractuel :**
+*   **Périmètre actuel restreint** : Olivier De Passe (MyReport) a clarifié le 10 mars 2026 que le contrat actuel couvre *uniquement* la migration Sylob V25 et la reconstruction de 340 modèles de données.
+*   **Compromis réalisé** : La livraison des 54 rapports a été abandonnée en février pour forcer l'accomplissement des 340 modèles dans le forfait initial.
+*   **Déversement = Lot Suivant** : L'interfaçage avec Azure est aujourd'hui verrouillé côté MyReport et conditionnera très probablement l'ouverture d'un nouveau lot/avenant financier.
+*   *Vigilance* : Historique de tension sur la **licence SERVER** (nécessaire pour brancher plus de 2 sources de données croisées, là où MyReport souhaitait proposer une licence "Starter").
+
+---
+
+## 2. Intégration API Kelio (Temps & RH)
+
+Les données RH (absences, plannings, temps de travail) sont stratégiques pour alimenter les indicateurs de production du MES ou les croisements décisionnels de la BI. 
+
+**✅ Accessibilité Commerciale :**
+* L'accès aux Web Services est inclus dans le contrat existant.
+
+**⚠️ Contraintes Techniques (Architecture actuelle SOAP/XML) :**
+L'API existante repose sur le protocole SOAP, beaucoup plus lourd que les standards modernes (REST/JSON) :
+*   **Risques d'interruption :** Timeout critique fixé à 5 minutes par appel, et présence de plages horaires restreignant l'accès.
+*   **Sensibilité aux volumes :** Coupures potentielles des serveurs Kelio en cas "d'utilisation abusive", rendant risquée la synchronisation de masse.
+*   **Confidentialité :** Impossibilité actuelle de filtrer l'extraction des données par "population" (un filtrage global est appliqué).
+*   **Temps réel MES (Aquiweb) :** Réserves techniques émises par Olivier Bertrand quant à la *robustesse industrielle* du SOAP Kelio pour du pointage opérationnel en direct.
+
+**➡️ Actions en cours :**
+* Stéphane Guillaumont a demandé le passage vers un standard **REST/JSON** (pour faciliter la BI et l'AIOps). Une réponse technique de Kelio est attendue.
+* Nouveau point à planifier avec Thierry Michel pour explorer leurs prochaines roadmap de développement.
+
+---
+
+## 3. Topographie des Autres Flux Actifs
+
+L'écosystème global reste robuste et interconnectable via `JeanMichel` (AIOps) et vos flux internes :
+
+1. **Sylob 9 (Le Socle) :** Base hébergée sur Azure, ~48 tables sources (`ssylob9_`) et préparées (`alz_`) fonctionnelles, bien que dépourvues des données (RH, SAV, QHSE).
+2. **Akeneo (PIM) :** Accès API stable gérant le catalogue produit.
+3. **Shopify (Web) :** Alimenté par vos scripts internes avec intégration de processus intelligents (Cross-Selling).
+4. **Data.gouv (MCP) :** L'agent IA a une connectivité directe vers les bases d'Etat (Legifrance, Sirene) permettant des automatisations de veille juridique ou de contrôle financier fournisseurs.
+
+---
+
+## Conclusion & Décisions Clés
+
+Le système d'information possède le "moteur" (Serveurs) mais fait face à des barrières de "péage" :
+1. **DWH Azure :** Décider s'il faut négocier immédiatement l'Avenant d'interfaçage Azure avec MyReport ou utiliser des scripts temporaires (orchestration interne) pour récupérer la donnée V25.
+2. **Kelio :** Faire pression lors du prochain appel avec Thierry Michel pour obtenir un accès REST fluide asynchrone, indispensable pour faire fonctionner le MES Aquiweb et l'analytique proprement sans surcharge réseau.
+
+---
+> [!IMPORTANT]
+> **Sécurité & Standards (NUBO / MLOps)** : 
+> L'utilisation de fichiers `.env` en production est strictement proscrite. 
+> La gestion des secrets (API, Base de données) doit obligatoirement passer par **Azure Key Vault**.
+> L'authentification des ressources s'effectue via **Entra ID (Managed Identity)** géré exclusivement par Terraform.

@@ -1,17 +1,15 @@
 import os
 import requests
-import webbrowser
+import urllib.parse
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse, parse_qs
-from dotenv import load_dotenv
-
-# Charger les variables d'environnement
-load_dotenv()
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'orchestrator')))
+from agents.common.azure_utils import get_secret
 
 # Configuration
-STORE_URL = os.getenv("SHOPIFY_STORE_URL")
-CLIENT_ID = os.getenv("SHOPIFY_CLIENT_ID")
-CLIENT_SECRET = os.getenv("SHOPIFY_CLIENT_SECRET")
+STORE_URL = get_secret("SHOPIFY-STORE-URL")
+CLIENT_ID = get_secret("SHOPIFY-CLIENT-ID")
+CLIENT_SECRET = get_secret("SHOPIFY-CLIENT-SECRET")
 REDIRECT_URI = "http://localhost:8081"
 
 # AJOUT DU SCOPE read_all_orders (requiert approbation Shopify)
