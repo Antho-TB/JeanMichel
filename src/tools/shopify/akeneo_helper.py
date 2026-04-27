@@ -1,17 +1,22 @@
 import os
-import requests
 import base64
+import requests
+import json
+import logging
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'orchestrator')))
+from agents.common.azure_utils import get_secret
 
 def get_akeneo_token():
     """
-    Récupère un Bearer Token auprès de l'API REST Akeneo PIM
-    en utilisant les identifiants fournis dans les variables d'environnement.
+    Récupère un token d'accès Akeneo (OAuth2 Password Grant)
+    en utilisant les identifiants stockés dans Azure Key Vault.
     """
-    base_url = os.getenv("AKENEO_BASE_URL", "http://192.168.102.22")
-    client_id = os.getenv("AKENEO_CLIENT_ID")
-    secret = os.getenv("AKENEO_SECRET")
-    username = os.getenv("AKENEO_USERNAME", "test_5292")
-    password = os.getenv("AKENEO_PASSWORD", "VOTRE_MOT_DE_PASSE_AKENEO")
+    base_url = get_secret("AKENEO-BASE-URL")
+    client_id = get_secret("AKENEO-CLIENT-ID")
+    secret = get_secret("AKENEO-SECRET")
+    username = get_secret("AKENEO-USERNAME")
+    password = get_secret("AKENEO-PASSWORD")
 
     if not client_id or not secret:
         raise ValueError("AKENEO_CLIENT_ID ou AKENEO_SECRET manquant.")
